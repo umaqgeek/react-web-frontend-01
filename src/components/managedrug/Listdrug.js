@@ -9,6 +9,7 @@ class Listdrug extends Component {
     super(props);
 
     this.state = {
+      loading: '',
       drugs: [],
       drugsView: null,
       searchText: '',
@@ -23,10 +24,15 @@ class Listdrug extends Component {
   };
 
   onGetDrugs() {
+    this.setState({
+      ...this.state,
+      loading: 'Loading ..',
+    });
     var self = this;
     getData('/drugs', {}, function(res) {
       self.setState({
         ...self.state,
+        loading: '',
         drugs: res,
         drugsView: res.length > 0 ? res.map(function(drug) {
           return (
@@ -53,6 +59,10 @@ class Listdrug extends Component {
         }) : (<tr><td colSpan="5"><center>.. No Data ..</center></td></tr>),
       });
     }, function(err) {
+      this.setState({
+        ...this.state,
+        loading: 'Server Error!',
+      });
       console.log(err);
     });
   };
@@ -117,6 +127,7 @@ class Listdrug extends Component {
             <Link to="/add-drug">
               <button type="button" className="btn btn-primary">ADD DRUG</button>
             </Link>
+            &nbsp;&nbsp;{this.state.loading}
           </div>
           <div className="col-md-4">
             <input
