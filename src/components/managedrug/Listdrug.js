@@ -59,8 +59,8 @@ class Listdrug extends Component {
         }) : (<tr><td colSpan="5"><center>.. No Data ..</center></td></tr>),
       });
     }, function(err) {
-      this.setState({
-        ...this.state,
+      self.setState({
+        ...self.state,
         loading: 'Server Error!',
       });
       console.log(err);

@@ -8,6 +8,7 @@ class Editdrug extends Component {
     super(props);
 
     this.state = {
+      loading: '',
       data: {
         id: 0,
         name: '',
@@ -26,15 +27,23 @@ class Editdrug extends Component {
   };
 
   onViewData() {
+    this.setState({
+      ...this.state,
+      loading: 'Loading ..',
+    });
     var self = this;
     const id = this.props.match.params[0];
     getData('/drug/'+id, {}, function(res) {
-      console.log(res[0]);
       self.setState({
         ...self.state,
+        loading: '',
         data: res[0],
       });
     }, function(err) {
+      self.setState({
+        ...self.state,
+        loading: 'Server Error!',
+      });
       console.log(err);
     });
   };
@@ -50,11 +59,23 @@ class Editdrug extends Component {
   };
 
   onSave() {
+    this.setState({
+      ...this.state,
+      loading: 'Loading ..',
+    });
     var self = this;
     const id = this.props.match.params[0];
     putData('/drug/'+id, this.state.data, function(res) {
+      self.setState({
+        ...self.state,
+        loading: '',
+      });
       self.props.history.push('/');
     }, function(err) {
+      self.setState({
+        ...self.state,
+        loading: 'Server Error!',
+      });
       console.log(err);
     });
   };
@@ -119,6 +140,7 @@ class Editdrug extends Component {
             <br />
 
             <button type='button' className='btn btn-success' onClick={this.onSave}>UPDATE</button>
+            &nbsp;&nbsp;{this.state.loading}
 
           </div>
         </div>

@@ -8,6 +8,7 @@ class Adddrug extends Component {
     super(props);
 
     this.state = {
+      loading: '',
       data: {
         name: '',
         category: '',
@@ -30,10 +31,22 @@ class Adddrug extends Component {
   };
 
   onSave() {
+    this.setState({
+      ...this.state,
+      loading: 'Loading ..',
+    });
     var self = this;
     postData('/drug', this.state.data, function(res) {
+      self.setState({
+        ...self.state,
+        loading: '',
+      });
       self.props.history.push('/');
     }, function(err) {
+      self.setState({
+        ...self.state,
+        loading: 'Server Error!',
+      });
       console.log(err);
     });
   };
@@ -98,6 +111,7 @@ class Adddrug extends Component {
             <br />
 
             <button type='button' className='btn btn-success' onClick={this.onSave}>SAVE</button>
+            &nbsp;&nbsp;{this.state.loading}
 
           </div>
         </div>

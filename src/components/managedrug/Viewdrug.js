@@ -8,6 +8,7 @@ class Viewdrug extends Component {
     super(props);
 
     this.state = {
+      loading: '',
       data: {
         id: 0,
         name: '',
@@ -24,15 +25,23 @@ class Viewdrug extends Component {
   };
 
   onViewData() {
+    this.setState({
+      ...this.state,
+      loading: 'Loading ..',
+    });
     var self = this;
     const id = this.props.match.params[0];
     getData('/drug/'+id, {}, function(res) {
-      console.log(res[0]);
       self.setState({
         ...self.state,
+        loading: '',
         data: res[0],
       });
     }, function(err) {
+      self.setState({
+        ...self.state,
+        loading: 'Server Error!',
+      });
       console.log(err);
     });
   };
@@ -58,6 +67,8 @@ class Viewdrug extends Component {
         </div>
         <div className="row">
           <div className="col-md-6 offset-md-3">
+
+            <br />{this.state.loading}<br />
 
             <table className='table table-bordered'>
               <tr>
