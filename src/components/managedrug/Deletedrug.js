@@ -47,7 +47,7 @@ class Deletedrug extends Component {
           <div className="col-md-12">
             <br />
             <center>
-              <h2>View Drug</h2>
+              <h2>Delete Drug</h2>
             </center>
             <hr />
           </div>
